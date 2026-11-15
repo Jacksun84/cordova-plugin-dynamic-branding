@@ -20,4 +20,14 @@ See [config/current-build.json](config/current-build.json). `brandId` and `appli
 
 `brandId` must match a folder in `brands/` (letters, digits, `_`, `-`). Missing brand folder fails the build on purpose.
 
-See [brands/example/README.md](brands/example/README.md) for the icon layout.
+## Brands
+
+| `brandId` | Folder |
+|---|---|
+| `kuwait-hospital` | `brands/kuwait-hospital/` |
+| `moh` | `brands/moh/` |
+| `patient-mobile` | `brands/patient-mobile/` |
+
+To add a brand: create `brands/<brandId>/android/res/` and `brands/<brandId>/ios/AppIcon.appiconset/` with the icon files, then add it to this table. See [brands/example/README.md](brands/example/README.md) for the icon layout.
+
+Note: a brand folder with only a README (no `android/res` or `ios/AppIcon.appiconset`) does not fail the build. The hook logs "icons untouched" and keeps the default icons.

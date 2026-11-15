@@ -2,7 +2,7 @@
     "buildId": "KWH-20261115-013600",
     "brandId": "patient-mobile",
     "bundleId": "com.mobile.experts.PatientMobile",
-    "applicationName": "Kuwait Hospital",
+    "applicationName": "Kuwait Hospital Test A",
     "applicationIcon": "icon.png",
     "plugins": [
         {
@@ -17,7 +17,7 @@
             "name": "cordova-plugin-change-displayname",
             "url": "https://github.com/sapphire-components/cordova-plugin-change-displayname.git",
             "variables": [
-                {"name": "APP_NAME", "value": "Kuwait Hospital Test"}
+                {"name": "APP_NAME", "value": "Kuwait Hospital Test B"}
             ]
         }
     ]
