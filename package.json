@@ -1,0 +1,11 @@
+{
+  "name": "cordova-plugin-dynamic-branding",
+  "version": "0.1.0",
+  "description": "Applies brand-specific name, icons and native config values after cordova prepare (OutSystems MABS).",
+  "cordova": {
+    "id": "cordova-plugin-dynamic-branding",
+    "platforms": ["android", "ios"]
+  },
+  "keywords": ["cordova", "ecosystem:cordova", "cordova-android", "cordova-ios", "outsystems", "branding"],
+  "license": "MIT"
+}

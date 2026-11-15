@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-dynamic-branding"
+        version="0.1.0">
+    <name>Dynamic Branding</name>
+    <description>Applies brand-specific name, icons and native config values after cordova prepare (MABS).</description>
+    <license>MIT</license>
+
+    <engines>
+        <engine name="cordova" version=">=11.0.0"/>
+    </engines>
+
+    <platform name="android"/>
+    <platform name="ios"/>
+
+    <!-- Runs after the platforms are prepared, so our changes win over what MABS/OutSystems generated. -->
+    <hook type="after_prepare" src="hooks/apply-branding.js"/>
+</plugin>
