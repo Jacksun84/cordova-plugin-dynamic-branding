@@ -1,7 +1,7 @@
 {
     "buildId": "KWH-20261115-013600",
-    "brandId": "kuwait-hospital",
-    "bundleId": "com.nordicplatforms.demo.SapphireCare",
+    "brandId": "patient-mobile",
+    "bundleId": "com.mobile.experts.PatientMobile",
     "applicationName": "Kuwait Hospital",
     "applicationIcon": "icon.png",
     "plugins": [
@@ -9,15 +9,15 @@
             "name": "PushwooshPlugin",
             "url": "https://github.com/Pushwoosh/pushwoosh-outsystems-plugin.git#8.3.74-OS.1",
             "variables": [
-                {"name": "com.pushwoosh.appid", "value": "54C9C-C683B"},
-                {"name": "com.pushwoosh.senderid", "value": "52018363898"}
+                {"name": "com.pushwoosh.appid", "value": "54C9C-F4565G"},
+                {"name": "com.pushwoosh.senderid", "value": "123456789102"}
             ]
         },
         {
             "name": "cordova-plugin-change-displayname",
             "url": "https://github.com/sapphire-components/cordova-plugin-change-displayname.git",
             "variables": [
-                {"name": "APP_NAME", "value": "Kuwait Hospital"}
+                {"name": "APP_NAME", "value": "Kuwait Hospital Test"}
             ]
         }
     ]
