@@ -80,6 +80,10 @@ function normalizeConfig(config) {
   const plist = {};
   (config.plugins || []).forEach((plugin) => {
     (plugin.variables || []).forEach((v) => {
+      // The change-displayname plugin's APP_NAME is the explicit display-name override: it wins over applicationName.
+      if (plugin.name === 'cordova-plugin-change-displayname' && v.name === 'APP_NAME' && v.value) {
+        config.appName = v.value;
+      }
       const target = PLUGIN_VARIABLE_TARGETS[v.name];
       if (!target) return;
       if (target.android) meta[target.android] = v.value;
@@ -121,6 +125,9 @@ function applyAndroid(platformRoot, brandDir, config) {
       fs.writeFileSync(strings, xml);
       log('android: app name set');
     }
+    // cordova-plugin-change-displayname reads this preference in its own after_prepare hook
+    // (whose run order relative to ours is not guaranteed), so keep it in sync.
+    setAppNamePreference(path.join(mainDir, 'res', 'xml', 'config.xml'), config.appName);
   }
 
   // Manifest meta-data (e.g. com.pushwoosh.appid)
@@ -186,7 +193,10 @@ function applyIos(platformRoot, brandDir, config) {
   if (!plistPath) throw new Error('[dynamic-branding] ios: Info.plist not found in ' + appDir);
 
   const values = Object.assign({}, (config.ios && config.ios.infoPlist) || {});
-  if (config.appName) values.CFBundleDisplayName = config.appName;
+  if (config.appName) {
+    values.CFBundleDisplayName = config.appName;
+    setAppNamePreference(path.join(appDir, 'config.xml'), config.appName);
+  }
   let plist = fs.readFileSync(plistPath, 'utf8');
   Object.keys(values).forEach((key) => {
     plist = setPlistString(plist, key, String(values[key]));
@@ -205,6 +215,20 @@ function setPlistString(plist, key, value) {
 }
 
 /* ---------- utils ---------- */
+
+function setAppNamePreference(configXmlPath, name) {
+  if (!fs.existsSync(configXmlPath)) {
+    log('config.xml not found at ' + configXmlPath + ', AppName preference not synced');
+    return;
+  }
+  let xml = fs.readFileSync(configXmlPath, 'utf8');
+  const v = xmlEscape(name);
+  const re = /(<preference\s+[^>]*name="AppName"[^>]*value=")[^"]*(")/;
+  if (re.test(xml)) xml = xml.replace(re, (_, a, b) => a + v + b);
+  else xml = xml.replace(/<\/widget>/, '    <preference name="AppName" value="' + v + '" />\n</widget>');
+  fs.writeFileSync(configXmlPath, xml);
+  log('AppName preference synced in ' + path.basename(path.dirname(configXmlPath)) + '/config.xml');
+}
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).reduce((acc, e) => {
