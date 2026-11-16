@@ -14,5 +14,6 @@
     <platform name="ios"/>
 
     <!-- Runs after the platforms are prepared, so our changes win over what MABS/OutSystems generated. -->
-    <hook type="after_prepare" src="hooks/apply-branding.js"/>
+    <hook type="after_prepare" src="hooks/apply-icons.js"/>
+    <hook type="after_prepare" src="hooks/apply-variables.js"/>
 </plugin>

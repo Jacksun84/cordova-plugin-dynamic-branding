@@ -6,11 +6,15 @@ Cordova plugin that overrides branding and build configuration for OutSystems mo
 
 1. The OutSystems module references this plugin once (Git URL + fixed branch/tag in the extensibility JSON).
 2. Before a build, the OS web app writes `config/<appId>.json` (or `config/current-build.json`) to this repo.
-3. MABS fetches the plugin, and the `after_prepare` hook (`hooks/apply-branding.js`) reads the config and:
-   - copies `brands/<brand>/android/res/**` over the Android `res` folder
-   - replaces `ios/.../Images.xcassets/AppIcon.appiconset` with `brands/<brand>/ios/AppIcon.appiconset`
-   - sets the app name (Android `strings.xml`, iOS `CFBundleDisplayName`)
-   - sets Android manifest `meta-data` and iOS `Info.plist` string keys (e.g. `com.pushwoosh.appid`)
+3. MABS fetches the plugin and two `after_prepare` hooks run, each reading the config independently (shared code in `hooks/lib/common.js`):
+   - `hooks/apply-icons.js`:
+     - copies `brands/<brand>/android/res/**` over the Android `res` folder
+     - replaces `ios/<App>/Assets.xcassets/AppIcon.appiconset` (`Images.xcassets` on older cordova-ios) with `brands/<brand>/ios/AppIcon.appiconset`
+   - `hooks/apply-variables.js`:
+     - sets the app name (Android `strings.xml`, iOS `CFBundleDisplayName`, and the `AppName` preference read by cordova-plugin-change-displayname)
+     - sets Android manifest `meta-data` and iOS `Info.plist` string keys (e.g. `com.pushwoosh.appid`)
+
+To add another task, create a new `hooks/apply-<task>.js` that calls `loadBuildContext(context)` and register it in `plugin.xml`.
 
 `<appId>` is the `widget id` in `config.xml` (the app identifier). Falls back to `config/current-build.json`.
 
