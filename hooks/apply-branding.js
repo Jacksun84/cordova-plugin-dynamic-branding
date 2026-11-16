@@ -168,16 +168,19 @@ function removeLauncherDuplicates(destRes, srcRes) {
 /* ---------- ios ---------- */
 
 function applyIos(platformRoot, brandDir, config) {
+  // cordova-ios >= 7 (MABS 12) uses Assets.xcassets; older versions use Images.xcassets
+  const CATALOGS = ['Assets.xcassets', 'Images.xcassets'];
   const appDir = fs
     .readdirSync(platformRoot)
     .map((d) => path.join(platformRoot, d))
-    .find((d) => fs.existsSync(path.join(d, 'Images.xcassets')));
-  if (!appDir) throw new Error('[dynamic-branding] ios: could not find Images.xcassets under ' + platformRoot);
+    .find((d) => fs.statSync(d).isDirectory() && CATALOGS.some((c) => fs.existsSync(path.join(d, c))));
+  if (!appDir) throw new Error('[dynamic-branding] ios: could not find ' + CATALOGS.join(' or ') + ' under ' + platformRoot);
+  const catalog = CATALOGS.find((c) => fs.existsSync(path.join(appDir, c)));
 
   // Icons
   const iconSrc = path.join(brandDir, 'ios', 'AppIcon.appiconset');
   if (fs.existsSync(iconSrc)) {
-    const dest = path.join(appDir, 'Images.xcassets', 'AppIcon.appiconset');
+    const dest = path.join(appDir, catalog, 'AppIcon.appiconset');
     fs.rmSync(dest, { recursive: true, force: true }); // avoid stale sizes not listed in new Contents.json
     copyDir(iconSrc, dest);
     log('ios: icons copied');

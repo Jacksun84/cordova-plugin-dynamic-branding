@@ -12,7 +12,7 @@ brands/<brand>/
     mipmap-xxxhdpi/ic_launcher.png         192x192
     mipmap-*/ic_launcher_foreground.png    (adaptive icon, 108dp base)
     mipmap-*/ic_launcher_background.png    (adaptive icon, optional)
-  ios/AppIcon.appiconset/           -> platforms/ios/<App>/Images.xcassets/AppIcon.appiconset/
+  ios/AppIcon.appiconset/           -> platforms/ios/<App>/Assets.xcassets/AppIcon.appiconset/ (Images.xcassets on older cordova-ios)
     Contents.json                          (must match the PNG file names)
     *.png                                  (all sizes listed in Contents.json, 1024x1024 has no alpha)
 ```
