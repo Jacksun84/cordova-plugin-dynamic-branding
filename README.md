@@ -7,9 +7,9 @@ Cordova plugin that overrides branding and build configuration for OutSystems mo
 1. The OutSystems module references this plugin once (Git URL + fixed branch/tag in the extensibility JSON).
 2. Before a build, the OS web app writes `config/<appId>.json` (or `config/current-build.json`) to this repo.
 3. MABS fetches the plugin and two `after_prepare` hooks run, each reading the config independently (shared code in `hooks/lib/common.js`):
-   - `hooks/apply-icons.js`:
-     - copies `brands/<brand>/android/res/**` over the Android `res` folder
-     - replaces `ios/<App>/Assets.xcassets/AppIcon.appiconset` (`Images.xcassets` on older cordova-ios) with `brands/<brand>/ios/AppIcon.appiconset`
+   - `hooks/apply-icons.js` (brand assets in the OutSystems export layout, see "Brand folder layout" below):
+     - Android: `drawable-<density>/icon.png` becomes `mipmap-<density>/ic_launcher.png`; splash `screen.png` files and `drawable/` are copied as-is
+     - iOS: `icons/<name>_<px>.png` are matched by pixel size to the entries of the generated `AppIcon.appiconset/Contents.json`; `splashscreens/*` go into `LaunchStoryboard.imageset` (`Assets.xcassets`, or `Images.xcassets` on older cordova-ios)
    - `hooks/apply-variables.js`:
      - sets the app name (Android `strings.xml`, iOS `CFBundleDisplayName`, and the `AppName` preference read by cordova-plugin-change-displayname)
      - sets Android manifest `meta-data` and iOS `Info.plist` string keys (e.g. `com.pushwoosh.appid`)
@@ -29,9 +29,24 @@ See [config/current-build.json](config/current-build.json). `brandId` and `appli
 | `brandId` | Folder |
 |---|---|
 | `kuwait-hospital` | `brands/kuwait-hospital/` |
-| `moh` | `brands/moh/` |
+| `sapphire-care` | `brands/sapphire-care/` (iOS images still to be added) |
 | `patient-mobile` | `brands/patient-mobile/` |
 
-To add a brand: create `brands/<brandId>/android/res/` and `brands/<brandId>/ios/AppIcon.appiconset/` with the icon files, then add it to this table. See [brands/example/README.md](brands/example/README.md) for the icon layout.
+### Brand folder layout
 
-Note: a brand folder with only a README (no `android/res` or `ios/AppIcon.appiconset`) does not fail the build. The hook logs "icons untouched" and keeps the default icons.
+```
+brands/<brandId>/
+  android/
+    drawable-ldpi|mdpi|hdpi|xhdpi|xxhdpi|xxxhdpi/icon.png      launcher icon
+    drawable-port-*|drawable-land-*/screen.png                  splash screens (copied as-is)
+    drawable/empty_icon.xml
+    res/                                                        optional raw overlay (e.g. adaptive icons)
+  ios/
+    icons/<name>_<px>.png                                       e.g. oshub_20.png ... oshub_1024.png
+    splashscreens/Default@2x~universal~anyany.png ...           same names as the generated LaunchStoryboard.imageset
+    AppIcon.appiconset/                                         optional full replacement of the icon set
+```
+
+To add a brand: create the folder with this layout, then add it to the table. A brand folder with no `android` or `ios` content does not fail the build. The hook logs "untouched" and keeps the default images. A `brandId` with no folder at all does fail the build.
+
+iOS icon matching: every entry in the generated `Contents.json` needs pixel size = `size` × `scale` (for example 60x60 @3x = 180). The hook logs `no source for px: ...` for sizes missing in `ios/icons`. Android: ldpi has no launcher mipmap in recent projects, so it is written to `drawable-ldpi/icon.png` and is unused.

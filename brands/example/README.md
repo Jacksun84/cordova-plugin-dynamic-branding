@@ -1,20 +1,11 @@
 # Brand folder layout
 
-One folder per brand. Contents are copied as an overlay onto the native project, so only include what changes.
+See "Brand folder layout" in the [main README](../../README.md). In short:
 
 ```
-brands/<brand>/
-  android/res/                      -> platforms/android/app/src/main/res/
-    mipmap-mdpi/ic_launcher.png            48x48
-    mipmap-hdpi/ic_launcher.png            72x72
-    mipmap-xhdpi/ic_launcher.png           96x96
-    mipmap-xxhdpi/ic_launcher.png          144x144
-    mipmap-xxxhdpi/ic_launcher.png         192x192
-    mipmap-*/ic_launcher_foreground.png    (adaptive icon, 108dp base)
-    mipmap-*/ic_launcher_background.png    (adaptive icon, optional)
-  ios/AppIcon.appiconset/           -> platforms/ios/<App>/Assets.xcassets/AppIcon.appiconset/ (Images.xcassets on older cordova-ios)
-    Contents.json                          (must match the PNG file names)
-    *.png                                  (all sizes listed in Contents.json, 1024x1024 has no alpha)
+brands/<brandId>/
+  android/drawable-<density>/icon.png, drawable-{port,land}-*/screen.png, drawable/empty_icon.xml
+  ios/icons/<name>_<px>.png, ios/splashscreens/Default@2x~...png
 ```
 
-Tip: keep the same file names the generated project already uses (check a MABS build output once).
+The folder name must equal `brandId` in `config/current-build.json`.
