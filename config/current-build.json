@@ -3,7 +3,6 @@
     "brandId": "kuwait-hospital",
     "bundleId": "com.outsystems.experts.patientmobile",
     "applicationName": "Kuwait Hospital Test A",
-    "applicationIcon": "icon.png",
     "plugins": [
         {
             "name": "PushwooshPlugin",
