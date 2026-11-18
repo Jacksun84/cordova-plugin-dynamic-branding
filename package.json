@@ -6,6 +6,13 @@
     "id": "cordova-plugin-dynamic-branding",
     "platforms": ["android", "ios"]
   },
+  "developers": [
+    {
+      "name": "Bruno Sol",
+      "email": "bruno.sol.js@gmail.com",
+      "url": "https://github.com/Jacksun84"
+    }
+  ],
   "keywords": ["cordova", "ecosystem:cordova", "cordova-android", "cordova-ios", "outsystems", "branding"],
   "license": "MIT"
 }
