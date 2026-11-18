@@ -29,7 +29,7 @@ See [config/current-build.json](config/current-build.json). `brandId` and `appli
 | `brandId` | Folder |
 |---|---|
 | `kuwait-hospital` | `brands/kuwait-hospital/` |
-| `sapphire-care` | `brands/sapphire-care/` (iOS images still to be added) |
+| `sapphire-care` | `brands/sapphire-care/` |
 | `patient-mobile` | `brands/patient-mobile/` |
 
 ### Brand folder layout
