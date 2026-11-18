@@ -3,7 +3,6 @@
     "brandId": "kuwait-hospital",
     "bundleId": "com.nordicplatforms.demo.SapphireCare",
     "applicationName": "Kuwait Hospital",
-    "applicationIcon": "icon.png",
     "plugins": [
         {
             "name": "PushwooshPlugin",
