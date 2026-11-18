@@ -1,6 +1,6 @@
 {
     "buildId": "KWH-20261115-013600",
-    "brandId": "kuwait-hospital",
+    "brandId": "patient-mobile",
     "bundleId": "com.outsystems.experts.patientmobile",
     "applicationName": "Kuwait Hospital Test A",
     "plugins": [
